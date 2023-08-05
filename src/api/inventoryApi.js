@@ -24,23 +24,48 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    const errorMessage = error.response?.data?.message || 'An error occurred';
+    return Promise.reject(errorMessage);
+  }
+);
+
 export const getAllInventory = async () => {
-  const response = await axiosInstance.get(BASE_URL);
-  console.log('ttttt', response)
-  return response.data;
+  try {
+    const response = await axiosInstance.get(BASE_URL);
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const createInventory = async (inventoryData) => {
-  const response = await axiosInstance.post(BASE_URL, inventoryData);
-  return response.data;
+  try {
+    const response = await axiosInstance.post(BASE_URL, inventoryData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const updateInventory = async (itemId, inventoryData) => {
-  const response = await axiosInstance.patch(`${BASE_URL}/${itemId}`, inventoryData);
-  return response.data;
+  try {
+    const response = await axiosInstance.patch(`${BASE_URL}/${itemId}`, inventoryData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const deleteInventory = async (itemId) => {
-  const response = await axiosInstance.delete(`${BASE_URL}/${itemId}`);
-  return response.data;
+  try {
+    const response = await axiosInstance.delete(`${BASE_URL}/${itemId}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };

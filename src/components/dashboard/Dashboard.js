@@ -6,6 +6,7 @@ import { createInventory, deleteInventory, getAllInventory, updateInventory } fr
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { Paper, Toolbar, CircularProgress, Typography, Button } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import Sidebar from "../Sidebar/Sidebar";
 import Swal from 'sweetalert2';
 
@@ -173,7 +174,7 @@ const Dashboard = () => {
                 },
               }} 
               onClick={handleAddInventory}
-            > + Add Inventory</Button>
+            > <AddIcon /> Add Inventory</Button>
           </div>
         )}
 

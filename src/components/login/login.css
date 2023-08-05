@@ -1,0 +1,62 @@
+/* login.css */
+
+/* Container styles */
+.f-wrap {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Heading styles */
+.f-wrap .f-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Input styles */
+.f-wrap .f-input {
+    width: 92%;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button styles */
+.f-wrap .f-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(89.09deg,#0e7469 3.31%,#2bae95 95.19%);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.f-wrap .f-button:hover {
+    background-color: #0056b3;
+}
+
+/* Error message styles */
+.f-wrap .f-error {
+    color: #ff0000;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+    .f-wrap {
+      max-width: 90%;
+    }
+  
+    .f-wrap .f-input, .f-button {
+      width: 100%;
+    }
+  }

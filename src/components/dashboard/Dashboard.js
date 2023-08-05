@@ -87,8 +87,20 @@ const Dashboard = () => {
 
   const handleRemoveInventory = async (itemId) => {
     try {
-      await deleteInventory(itemId);
-      setInventory(inventory.filter((item) => item._id !== itemId));
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to delete this item?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#21C39E',
+        confirmButtonText: 'Yes, Delete!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteInventory(itemId);
+          setInventory(inventory.filter((item) => item._id !== itemId));
+        }
+      });
+      
     } catch (err) {
       console.error("Error removing inventory item", err);
     }
@@ -100,7 +112,7 @@ const Dashboard = () => {
       if (!prevItem) return;
   
       const updatedItem = await inventoryForm(prevItem);
-      
+
       if (updatedItem) {
         const response = await updateInventory(itemId, updatedItem);
         setInventory(inventory.map((item) => (item._id === itemId ? response : item)));

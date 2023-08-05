@@ -9,13 +9,24 @@ const getBearerToken = () => {
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
-    headers: {
-      'Authorization': `Bearer ${getBearerToken()}`
-    }
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getBearerToken();
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const getAllInventory = async () => {
   const response = await axiosInstance.get(BASE_URL);
+  console.log('ttttt', response)
   return response.data;
 };
 

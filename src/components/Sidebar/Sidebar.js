@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import { Tooltip, ListItemIcon, ListItemText, ListItem } from "@mui/material";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import HomeIcon from "@mui/icons-material/Home";
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import PersonIcon from "@mui/icons-material/Person";
-// import SettingsIcon from "@mui/icons-material/Settings";
+import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { useNavigate } from "react-router-dom";
@@ -57,8 +54,8 @@ const Sidebar = ({ onClose }) => {
   const menuItems = [
     { name: "Dashboard", icon: <HomeIcon className="s-menu" /> },
     { name: "Request Permission", icon: <LockPersonIcon className="s-menu" /> },
-    // { name: "Profile", icon: <PersonIcon /> },
-    // { name: "Settings", icon: <SettingsIcon /> },
+    { name: "Profile", icon: <PersonIcon className="s-menu" /> },
+    { name: "Settings", icon: <SettingsIcon className="s-menu" /> },
   ];
 
   return (

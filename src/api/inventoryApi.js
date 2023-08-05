@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8100/api/inventory';
+const BASE_URL = 'https://weak-red-bear-tam.cyclic.app/api/inventory';
 
 const getBearerToken = () => {
     const token = localStorage.getItem("token");
@@ -21,6 +21,11 @@ export const getAllInventory = async () => {
 
 export const createInventory = async (inventoryData) => {
   const response = await axiosInstance.post(BASE_URL, inventoryData);
+  return response.data;
+};
+
+export const updateInventory = async (itemId, inventoryData) => {
+  const response = await axiosInstance.patch(`${BASE_URL}/${itemId}`, inventoryData);
   return response.data;
 };
 

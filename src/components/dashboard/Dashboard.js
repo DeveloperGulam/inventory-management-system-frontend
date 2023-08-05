@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./dashboard.css";
 import InventoryList from "../inventoryList/InventoryList";
 import { getUserFromToken } from "../../utils/jwtUtils";
-import { createInventory, deleteInventory, getAllInventory } from "../../api/inventoryApi";
+import { createInventory, deleteInventory, getAllInventory, updateInventory } from "../../api/inventoryApi";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { Paper, Toolbar, CircularProgress, Typography, Button } from "@mui/material";
@@ -44,31 +44,37 @@ const Dashboard = () => {
     }
   };
 
+  const inventoryForm = async (prevItem) => {
+    const { value: item } = await Swal.fire({
+      title: prevItem ? 'Update Item Details' : 'Enter Item Details',
+      html:
+        `<input type="text" value="${prevItem ? prevItem.name : ''}" id="item-name" class="swal2-input" placeholder="Item name">` +
+        `<input type="number" value="${prevItem ? prevItem.quantity : ''}" id="item-quantity" class="swal2-input" placeholder="Item quantity">`,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#21C39E',
+      preConfirm: () => {
+        const name = document.getElementById('item-name').value;
+        const quantity = document.getElementById('item-quantity').value;
+    
+        if (!name || !quantity) {
+          Swal.showValidationMessage('Item name and quantity are required');
+          return false;
+        }
+    
+        return { name, quantity };
+      }
+    });
+
+    return item;
+  }
+
   const handleAddInventory = async () => {
     try {
-      const { value: item } = await Swal.fire({
-        title: 'Enter Item Details',
-        html:
-          '<input type="text" id="item-name" class="swal2-input" placeholder="Item name">' +
-          '<input type="number" id="item-quantity" class="swal2-input" placeholder="Item quantity">',
-        focusConfirm: false,
-        showCancelButton: true,
-        confirmButtonText: 'Save',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: '#21C39E',
-        preConfirm: () => {
-          const name = document.getElementById('item-name').value;
-          const quantity = document.getElementById('item-quantity').value;
-      
-          if (!name || !quantity) {
-            Swal.showValidationMessage('Item name and quantity are required');
-            return false;
-          }
-      
-          return { name, quantity };
-        }
-      });
-      
+      const item = await inventoryForm();
+
       if (item) {
         const response = await createInventory(item);
         setInventory([...inventory, response]);
@@ -87,6 +93,22 @@ const Dashboard = () => {
       console.error("Error removing inventory item", err);
     }
   };
+
+  const handleEditInventory = async (itemId) => {
+    try {
+      const prevItem = inventory.find((item) => item._id === itemId);
+      if (!prevItem) return;
+  
+      const updatedItem = await inventoryForm(prevItem);
+      
+      if (updatedItem) {
+        const response = await updateInventory(itemId, updatedItem);
+        setInventory(inventory.map((item) => (item._id === itemId ? response : item)));
+      }
+    } catch (err) {
+      console.error("Error updating inventory item", err);
+    }
+  };  
 
   const renderBarChart = (inventory) => {
     const labels = inventory.map((item) => item.name);
@@ -197,6 +219,7 @@ const Dashboard = () => {
             <div style={{ width: "100%"}}>
               <InventoryList
                 inventory={inventory}
+                onEditInventory={loggedUser?.level === 1 ? handleEditInventory : undefined}
                 onRemoveInventory={loggedUser?.level === 1 ? handleRemoveInventory : undefined}
               />
             </div>

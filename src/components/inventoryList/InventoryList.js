@@ -2,7 +2,7 @@ import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import './inventoryList.css';
 
-const InventoryList = ({ inventory, onRemoveInventory }) => {
+const InventoryList = ({ inventory, onEditInventory, onRemoveInventory }) => {
   return (
     <div className="inventory-table">
       <h3 className="t-title">Inventory List</h3>
@@ -22,6 +22,9 @@ const InventoryList = ({ inventory, onRemoveInventory }) => {
                 <TableCell align="right">{item.quantity}</TableCell>
                 {onRemoveInventory && (
                   <TableCell align="right">
+                    <Button variant="contained" sx={{backgroundColor: "#21C39E", marginX: "20px"}} color="secondary" onClick={() => onEditInventory(item._id)}>
+                      Edit
+                    </Button>
                     <Button variant="contained" sx={{backgroundColor: "#d33"}} color="secondary" onClick={() => onRemoveInventory(item._id)}>
                       Remove
                     </Button>
